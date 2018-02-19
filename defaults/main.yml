@@ -1,0 +1,49 @@
+---
+# defaults file for memoryleak.elk
+elk_install_elasticsearch: true
+
+elk_kibana_config_path: /etc/kibana/kibana.yml
+elk_install_kibana: true
+elk_kibana_config:
+  - name: server.host
+    value: 0.0.0.0
+
+  - name: elasticsearch.url
+    value: http://localhost:9200
+
+elk_install_logstash: true
+elk_install_filebeat: true
+
+elk_elasticsearch_endpoints:
+  - http://localhost:9200
+
+elk_elasticsearch_config_path: /etc/elasticsearch/elasticsearch.yml
+
+elk_elasticsearch_config:
+  - name: cluster.name
+    value: elasticsearch_cluster
+
+  - name: node.name
+    value: elasticsearch_node_1
+
+elk_elasticsearch_jvm_config_path: /etc/elasticsearch/jvm.options
+# elk_elasticsearch_jvm_config:
+#   - "-Xms{{ (ansible_memtotal_mb * 0.1) | round(0, 'floor') | int }}m"
+#   - "-Xmx{{ (ansible_memtotal_mb * 0.8) | round(0, 'floor') | int }}m"
+
+elk_logstash_config_path: /etc/logstash/logstash.yml
+elk_logstash_config:
+  - name: pipeline.workers
+    value: "{{ ansible_processor_cores }}"
+
+elk_logstash_jvm_config_path: /etc/logstash/jvm.options
+# elk_logstash_jvm_config:
+#   - "-Xms{{ (ansible_memtotal_mb * 0.1) | round(0, 'floor') | int }}m"
+#   - "-Xmx{{ (ansible_memtotal_mb * 0.8) | round(0, 'floor') | int }}m"
+
+elk_logstash_conf_templates: 
+  - rsyslog.conf
+
+elk_rsyslog_reconfigure: false
+elk_rsyslog_target_host: 127.0.0.1
+elk_rsyslog_target_port: 5000

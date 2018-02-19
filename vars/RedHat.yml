@@ -1,0 +1,12 @@
+---
+elasticsearch_package: elasticsearch
+kibana_package: kibana
+logstash_package: logstash
+filebeat_package: filebeat
+topbeat_package: topbeat
+
+elasticsearch_service_name: elasticsearch
+logstash_service_name: logstash
+kibana_service_name: kibana
+filebeat_service_name: filebeat
+rsyslogd_service_name: rsyslog

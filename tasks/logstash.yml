@@ -1,0 +1,32 @@
+---
+- name: Set Logstash configuration values.
+  lineinfile:
+    line: "{{ item.name + ': ' + item.value | string }}"
+    path: "{{ elk_logstash_config_path }}"
+    regexp: "{{ '#?' + item.name + ':(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_logstash_config }}"
+  when: elk_logstash_config is defined
+  notify: logstash-restart-handler
+
+- name: Set Logstash jvm configuration values.
+  lineinfile:
+    line: "{{ item }}"
+    path: "{{ elk_logstash_jvm_config_path }}"
+    regexp: "{{ '#?' + item + '(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_logstash_jvm_config }}"
+  when: elk_logstash_jvm_config is defined
+  notify: logstash-restart-handler
+
+- name: Set up inputs for logstash.
+  template: 
+    dest: /etc/logstash/conf.d/{{ item }}.conf
+    mode: 0644
+    src: "{{ item }}.conf.j2"
+  tags: ['template']
+  when: elk_logstash_conf_templates
+  with_items: "{{ elk_logstash_conf_templates }}"
+  notify: logstash-restart-handler

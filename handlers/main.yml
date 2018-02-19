@@ -1,0 +1,34 @@
+---
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+  
+# handlers file for memoryleak.elk
+- name: elasticsearch-restart-handler
+  service:
+    enabled: yes
+    name: "{{ elasticsearch_service_name }}"
+    state: restarted
+
+- name: kibana-restart-handler
+  service:
+    enabled: yes
+    name: "{{ kibana_service_name }}"
+    state: restarted
+
+- name: logstash-restart-handler
+  service:
+    enabled: yes
+    name: "{{ logstash_service_name }}"
+    state: restarted
+
+- name: filebeat-restart-handler
+  service:
+    enabled: yes
+    name: "{{ filebeat_service_name }}"
+    state: restarted
+
+- name: rsyslogd-restart-handler
+  service:
+    enabled: yes
+    name: "{{ rsyslogd_service_name }}"
+    state: restarted

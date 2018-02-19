@@ -1,0 +1,11 @@
+---
+- name: Set Kibana configuration values.
+  lineinfile:
+    line: "{{ item.name + ': ' + item.value }}"
+    path: "{{ elk_kibana_config_path }}"
+    regexp: "{{ '#?' + item.name + ':(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_kibana_config }}"
+  when: elk_kibana_config is defined
+  notify: kibana-restart-handler

@@ -1,0 +1,8 @@
+---
+- name: Change rsyslogd output target.
+  template: 
+    dest: /etc/rsyslog.d/99-output.conf
+    src: rsyslog.d.conf.j2
+  tags: ['template']
+  when: elk_rsyslog_reconfigure
+  notify: rsyslogd-restart-handler

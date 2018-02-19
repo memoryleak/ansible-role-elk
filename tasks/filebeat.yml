@@ -1,0 +1,20 @@
+---
+- name: Set Filebeat configuration values.
+  lineinfile:
+    line: "{{ item.name + ': ' + item.value }}"
+    path: "{{ elk_filebeat_config_path }}"
+    regexp: "{{ '#?' + item.name + ':(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_filebeat_config }}"
+  when: elk_filebeat_config is defined
+
+- name: Set Filebeat jvm configuration values.
+  lineinfile:
+    line: "{{ item }}"
+    path: "{{ elk_filebeat_jvm_config_path }}"
+    regexp: "{{ '#?' + item + '(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_filebeat_jvm_config }}"
+  when: elk_filebeat_jvm_config is defined

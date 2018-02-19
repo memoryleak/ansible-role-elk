@@ -1,0 +1,22 @@
+---
+- name: Set ElasticSearch configuration values.
+  lineinfile:
+    line: "{{ item.name + ': ' + item.value | string }}"
+    path: "{{ elk_elasticsearch_config_path }}"
+    regexp: "{{ '#?' + item.name + ':(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_elasticsearch_config }}"
+  when: elk_elasticsearch_config is defined
+  notify: elasticsearch-restart-handler
+
+- name: Set ElasticSearch jvm configuration values.
+  lineinfile:
+    line: "{{ item }}"
+    path: "{{ elk_elasticsearch_jvm_config_path }}"
+    regexp: "{{ '#?' + item + '(.*)?'}}"
+    state: present
+  tags: ['lineinfile']
+  with_items: "{{ elk_elasticsearch_jvm_config }}"
+  when: elk_elasticsearch_jvm_config is defined
+  notify: elasticsearch-restart-handler

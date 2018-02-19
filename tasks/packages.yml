@@ -1,0 +1,33 @@
+---
+- name: Install ElasticSearch
+  package:
+    name: "{{ elasticsearch_package }}"
+    state: present
+  tags: ['package']
+  when: elk_install_elasticsearch
+  notify: elasticsearch-restart-handler
+
+- name: Install Logstash
+  package:
+    name: "{{ logstash_package }}"
+    state: present
+  tags: ['package']
+  when: elk_install_logstash
+  notify: logstash-restart-handler
+
+- name: Install Kibana
+  package:
+    name: "{{ kibana_package }}"
+    state: present
+    version:
+  tags: ['package']
+  when: elk_install_kibana
+  notify: kibana-restart-handler
+
+- name: Install Filebeat
+  package:
+    name: "{{ filebeat_package }}"
+    state: present
+  tags: ['package']
+  when: elk_install_filebeat
+  notify: filebeat-restart-handler

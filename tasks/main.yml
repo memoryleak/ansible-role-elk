@@ -1,0 +1,37 @@
+---
+# tasks file for memoryleak.elk
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Include OS-specific repositories.
+  include_tasks: "{{ ansible_os_family }}-repositories.yml"
+  tags: ['include']
+
+- name: Include packages installation task.
+  import_tasks: "packages.yml"
+  tags: ['include']
+
+- name: Include ElasticSearch configuration tasks.
+  import_tasks: "elasticsearch.yml"
+  tags: ['include']
+  when: elk_install_elasticsearch
+
+- name: Include Logstash configuration tasks.
+  import_tasks: "logstash.yml"
+  tags: ['include']
+  when: elk_install_logstash
+
+- name: Include Kibana configuration tasks.
+  import_tasks: "kibana.yml"
+  tags: ['include']
+  when: elk_install_kibana
+
+- name: Include Filebeat configuration tasks.
+  import_tasks: "filebeat.yml"
+  tags: ['include']
+  when: elk_install_filebeat
+
+- name: Include rsyslogd configuration tasks.
+  import_tasks: "rsyslogd.yml"
+  tags: ['include']
+  when: elk_rsyslog_reconfigure

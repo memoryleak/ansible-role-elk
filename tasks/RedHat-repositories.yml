@@ -1,0 +1,9 @@
+---
+- name: Copy Elastic repository file.
+  copy: 
+    dest: /etc/yum.repos.d/elastic.repo
+    group: root
+    mode: 0644
+    owner: root
+    src: elastic.repo
+  tags: ['copy']
