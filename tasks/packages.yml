@@ -19,7 +19,6 @@
   package:
     name: "{{ kibana_package }}"
     state: present
-    version:
   tags: ['package']
   when: elk_install_kibana
   notify: kibana-restart-handler
